@@ -896,6 +896,17 @@
     } else {
       additionalTitleRow.style.display = 'none';
     }
+
+    const brandLogoSpacer = document.getElementById('brandLogoSpacer');
+
+    // The identity block uses a 14px line height.
+    // Add another 14px whenever the optional title is shown.
+    const logoSpacerHeight = additionalTitleIncluded ? 34 : 20;
+    
+    brandLogoSpacer.setAttribute('height', logoSpacerHeight);
+    brandLogoSpacer.style.height = `${logoSpacerHeight}px`;
+    brandLogoSpacer.style.lineHeight = `${logoSpacerHeight}px`;
+    
     document.getElementById('officeno').textContent = ext ? `${phone} ext: ${ext}` : phone;
     document.getElementById('employeeemail').textContent = email;
 
