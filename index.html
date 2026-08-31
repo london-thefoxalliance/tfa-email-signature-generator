@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Fox Alliance — Signature Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b3352;
+    --navy-deep:#082539;
+    --paper:#f6f3ec;
+    --panel:#ffffff;
+    --line:#e2dccc;
+    --line-soft:#ece7db;
+    --orange:#f15b29;
+    --orange-tint:#fde8de;
+    --ink:#16222c;
+    --ink-soft:#5c6b78;
+    --muted:#8c9aa4;
+    --ok:#1c7c54;
+    --radius:12px;
+    --font-display:'Fraunces', Georgia, serif;
+    --font-body:'Inter', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* ---------- Topbar ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 36px;
+    background:var(--navy);
+    color:#fff;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .brand .mark{
+    width:34px;height:34px;
+    border-radius:50%;
+    border:1.5px solid rgba(255,255,255,.45);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .brand .mark svg{width:18px;height:18px;}
+  .brand-text{line-height:1.25;}
+  .brand-text .name{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:.01em;
+  }
+  .brand-text .sub{
+    font-size:11.5px;
+    color:rgba(255,255,255,.65);
+    text-transform:uppercase;
+    letter-spacing:.09em;
+  }
+  .topbar .tag{
+    font-size:12.5px;
+    color:rgba(255,255,255,.7);
+    border:1px solid rgba(255,255,255,.25);
+    padding:6px 12px;
+    border-radius:999px;
+  }
+
+  /* ---------- Layout ---------- */
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(340px,440px) 1fr;
+    min-height:calc(100vh - 73px);
+  }
+  @media (max-width:960px){
+    .layout{grid-template-columns:1fr;}
+  }
+
+  /* ---------- Form panel ---------- */
+  .form-panel{
+    padding:38px 34px 70px;
+    background:var(--panel);
+    border-right:1px solid var(--line);
+    overflow-y:auto;
+  }
+  .form-panel h1{
+    font-family:var(--font-display);
+    font-size:25px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0 0 6px;
+  }
+  .form-panel .lede{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    margin:0 0 30px;
+  }
+
+  .section-card{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:30px;
+  }
+  .section-card::before{
+    content:'';
+    position:absolute;
+    left:0;top:4px;bottom:4px;
+    width:2px;
+    background:var(--line-soft);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    gap:9px;
+    margin-bottom:16px;
+  }
+  .section-head .num{
+    font-family:var(--font-display);
+    font-size:12.5px;
+    color:var(--orange);
+    font-weight:600;
+  }
+  .section-head h2{
+    font-family:var(--font-body);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--navy);
+    margin:0;
+  }
+  .section-head .hint{
+    font-size:11px;
+    color:var(--muted);
+    margin-left:auto;
+  }
+
+  .field-group{margin-bottom:16px;}
+  .field-group:last-child{margin-bottom:0;}
+  .field-group label{
+    display:block;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+
+  .field-group input[type=text],
+  .field-group input[type=url],
+  .field-group input[type=tel],
+  .field-group input[type=email]{
+    width:100%;
+    padding:10px 12px;
+    border:1.5px solid var(--line);
+    border-radius:8px;
+    font-family:var(--font-body);
+    font-size:14px;
+    color:var(--ink);
+    background:#fdfcfa;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  .field-group input:focus{
+    outline:none;
+    border-color:var(--orange);
+    box-shadow:0 0 0 3px var(--orange-tint);
+    background:#fff;
+  }
+
+  .headshot-row{display:flex; gap:13px; align-items:center;}
+  .headshot-thumb{
+    width:56px;height:56px;
+    border-radius:8px;
+    object-fit:cover;
+    border:1.5px solid var(--line);
+    background:var(--paper);
+    flex-shrink:0;
+  }
+  .headshot-controls{flex:1; min-width:0;}
+  .headshot-tabs{display:flex; gap:6px; margin-bottom:8px;}
+  .headshot-tab{
+    font-family:var(--font-body);
+    font-size:11.5px;
+    font-weight:600;
+    padding:5px 10px;
+    border-radius:6px;
+    border:1.5px solid var(--line);
+    background:#fff;
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .headshot-tab.active{
+    border-color:var(--navy);
+    color:var(--navy);
+    background:#eef3f7;
+  }
+  .upload-btn{
+    display:block;
+    font-size:13px;
+    font-weight:600;
+    padding:9px 14px;
+    border-radius:8px;
+    border:1.5px dashed var(--line);
+    background:#fdfcfa;
+    color:var(--ink-soft);
+    cursor:pointer;
+    text-align:center;
+  }
+  .upload-btn:hover{border-color:var(--orange); color:var(--orange);}
+
+  .actions{
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:10px;
+    margin-top:34px;
+    padding-top:26px;
+    border-top:1px solid var(--line);
+  }
+  .btn{
+    font-family:var(--font-body);
+    font-size:13px;
+    font-weight:600;
+    padding:9px 14px;
+    border-radius:999px;
+    border:none;
+    cursor:pointer;
+    display:inline-flex;
+    width:auto;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    transition:transform .1s ease, opacity .15s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{background:var(--orange); color:#fff;}
+  .btn-primary:hover{background:#d94e1f;}
+  .btn-secondary{background:#fff; color:var(--navy); border:1.5px solid var(--line);}
+  .btn-secondary:hover{border-color:var(--navy);}
+  .btn-ghost{
+    background:linear-gradient(135deg, #fff7f2 0%, #fff 100%);
+    color:var(--navy);
+    border:1.5px solid rgba(241,91,41,.45);
+    box-shadow:0 4px 12px rgba(241,91,41,.08);
+    font-weight:600;
+    position:relative;
+    overflow:hidden;
+  }
+  .btn-ghost::before{
+    content:'';
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--orange);
+    box-shadow:0 0 0 4px var(--orange-tint);
+    flex-shrink:0;
+  }
+  .btn-ghost::after{
+    content:'↗';
+    font-size:15px;
+    line-height:1;
+    margin-left:1px;
+    transition:transform .15s ease;
+  }
+  .btn-ghost:hover{
+    color:var(--orange);
+    border-color:var(--orange);
+    background:#fff;
+    box-shadow:0 7px 18px rgba(241,91,41,.14);
+    transform:translateY(-1px);
+  }
+  .btn-ghost:hover::after{transform:translate(2px,-2px);}
+  .btn-reset{
+    background:#f5f1eb;
+    color:var(--ink-soft);
+    border:1.5px solid var(--line);
+  }
+  .btn-reset:hover{
+    background:#ede6db;
+    border-color:var(--ink-soft);
+    color:var(--ink);
+  }
+  .btn svg{width:16px;height:16px;flex-shrink:0;}
+
+  /* ---------- Confirmation Modal ---------- */
+  .confirmation-modal{
+    background:#fff;
+    border-radius:14px;
+    max-width:420px; width:100%;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,0.45);
+    padding:26px;
+    text-align:center;
+  }
+  .confirmation-modal .icon{
+    width:56px; height:56px;
+    border-radius:50%;
+    background:var(--orange-tint);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 16px;
+    color:var(--orange);
+    font-size:28px;
+  }
+  .confirmation-modal h3{
+    font-family:var(--font-display);
+    font-size:18px; font-weight:600;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+  .confirmation-modal p{
+    font-size:13.5px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    margin:0 0 20px;
+  }
+  .confirmation-actions{
+    display:flex; gap:10px; justify-content:center;
+  }
+  .confirmation-actions .btn{
+    flex:1;
+    margin:0;
+  }
+
+  /* ---------- Preview panel ---------- */
+  .preview-panel{
+    padding:52px 44px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:
+      radial-gradient(700px 260px at 50% -100px, #fff, transparent 65%),
+      var(--paper);
+  }
+  .preview-panel .preview-label{
+    align-self:flex-start;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:11.5px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--navy);
+    margin-bottom:16px;
+  }
+  .preview-label .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--orange);
+  }
+
+  .compose-window{
+    width:100%;
+    max-width:680px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 1px 2px rgba(20,25,40,0.05), 0 20px 48px -18px rgba(11,51,82,0.28);
+    border:1px solid var(--line);
+    overflow:hidden;
+  }
+  .compose-header{
+    background:#f7f6f2;
+    padding:12px 18px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .compose-header .traffic{display:flex; gap:6px;}
+  .compose-header .traffic span{width:10px;height:10px;border-radius:50%;}
+  .traffic span:nth-child(1){background:#ff5f57;}
+  .traffic span:nth-child(2){background:#febc2e;}
+  .traffic span:nth-child(3){background:#28c840;}
+  .compose-header .title{font-size:12.5px; color:var(--ink-soft); font-weight:500; margin-left:6px;}
+  .compose-fields{padding:14px 20px 6px; font-size:13px; color:var(--muted);}
+  .compose-fields .row{padding:8px 0; border-bottom:1px solid var(--line-soft);}
+  .compose-fields .row b{color:var(--ink); font-weight:500; margin-right:6px;}
+  .compose-body{padding:20px 22px 30px;}
+  .compose-body .greeting{
+    font-size:13.5px;
+    color:var(--ink);
+    line-height:1.6;
+    margin-bottom:20px;
+  }
+  .compose-body .greeting .fake-line{
+    display:block;
+    height:8px;
+    border-radius:4px;
+    background:#eef0ea;
+    margin-bottom:8px;
+  }
+  .compose-body .greeting .fake-line.short{width:52%;}
+  #signatureRender{padding-top:8px;}
+
+  .swap-note{
+    max-width:600px;
+    margin-top:18px;
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.55;
+    text-align:center;
+  }
+
+  .copied-toast{
+    position:fixed;
+    bottom:28px; left:50%;
+    transform:translateX(-50%) translateY(20px);
+    background:var(--navy-deep);
+    color:#fff;
+    font-size:13.5px;
+    font-weight:500;
+    padding:11px 20px;
+    border-radius:10px;
+    box-shadow:0 12px 30px -8px rgba(0,0,0,0.4);
+    opacity:0; pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    display:flex; align-items:center; gap:8px;
+    z-index:200;
+  }
+  .copied-toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(8,37,57,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:300; padding:24px;
+    opacity:0; pointer-events:none;
+    transition:opacity .15s ease;
+  }
+  .modal-overlay.show{opacity:1; pointer-events:auto;}
+  .modal{
+    background:#fff;
+    border-radius:14px;
+    max-width:560px; width:100%;
+    max-height:82vh; overflow-y:auto;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,0.45);
+  }
+  .modal-head{
+    padding:22px 26px 18px;
+    border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+    position:sticky; top:0; background:#fff;
+  }
+  .modal-head h2{
+    font-family:var(--font-display);
+    font-size:19px; font-weight:600;
+    margin:0;
+  }
+  .modal-close{
+    border:none; background:#f2efe8;
+    width:30px;height:30px; border-radius:50%;
+    cursor:pointer; color:var(--ink-soft); font-size:16px; line-height:1;
+  }
+  .tabs{display:flex; gap:6px; padding:16px 26px 0;}
+  .tab{
+    font-size:13px; font-weight:600;
+    padding:8px 14px; border-radius:8px 8px 0 0;
+    border:1.5px solid var(--line); border-bottom:none;
+    background:#faf8f4; color:var(--ink-soft); cursor:pointer;
+  }
+  .tab.active{background:#fff; color:var(--orange); border-color:var(--orange);}
+  .tab-panel{padding:20px 26px 28px; display:none;}
+  .tab-panel.active{display:block;}
+  .tab-panel ol{margin:0; padding-left:20px; font-size:13.5px; line-height:1.75; color:var(--ink);}
+  .tab-panel ol li{margin-bottom:6px;}
+  .tab-panel .note{
+    margin-top:14px; font-size:12.5px; color:var(--ink-soft);
+    background:var(--orange-tint); border-radius:9px; padding:10px 12px; line-height:1.55;
+  }
+
+  ::selection{background:var(--orange-tint); color:var(--navy-deep);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><path d="M12 3l3 5 5-2-2 6 3 4-5 1-2 5-2-5-5-1 3-4-2-6 5 2 -3-5z"/></svg>
+    </div>
+    <div class="brand-text">
+      <div class="name">The Fox Alliance</div>
+      <div class="sub">Email Signature Generator</div>
+    </div>
+  </div>
+  <div class="tag">Internal tool · Email signatures</div>
+</div>
+
+<div class="layout">
+
+  <!-- FORM PANEL -->
+  <section class="form-panel">
+    <h1>Build your signature</h1>
+    <p class="lede">Fill in your details on the left — the preview updates as you type. When it's right, copy it straight into your email or download the file.</p>
+
+    <div class="section-card">
+      <div class="section-head">
+        <span class="num">01</span>
+        <h2>Photo</h2>
+      </div>
+      <div class="field-group">
+        <div class="headshot-row">
+          <img id="headshotThumb" class="headshot-thumb" src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/Headshot-Placeholder.png" alt="">
+          <div class="headshot-controls">
+            <label id="uploadLabel" class="upload-btn">
+              Upload headshot
+              <input id="headshotFile" type="file" accept="image/*" style="display:none;">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">
+        <span class="num">02</span>
+        <h2>Identity</h2>
+      </div>
+      <div class="field-group">
+        <label>Full name</label>
+        <input id="fldName" type="text" value="Your Name">
+      </div>
+      <div class="field-group">
+        <label>Title</label>
+        <input id="fldTitle" type="text" value="Your Title">
+      </div>
+      <div class="field-group">
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+          <span>Additional title</span>
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:500;color:var(--ink-soft);margin:0;cursor:pointer;">
+            <input id="toggleAdditionalTitle" type="checkbox" style="width:15px;height:15px;accent-color:var(--orange);margin:0;cursor:pointer;">
+            Include
+          </label>
+        </label>
+        <input id="fldAdditionalTitle" type="text" value="Partner">
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">
+        <span class="num">03</span>
+        <h2>Contact</h2>
+      </div>
+      <div class="field-group">
+        <label>Office number</label>
+        <input id="fldPhone" type="tel" value="012 3456 7890">
+      </div>
+      <div class="field-group">
+        <label style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+          <span>Mobile number</span>
+          <label style="display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:500;color:var(--ink-soft);margin:0;cursor:pointer;">
+            <input id="toggleMobile" type="checkbox" style="width:15px;height:15px;accent-color:var(--orange);margin:0;cursor:pointer;">
+            Include
+          </label>
+        </label>
+        <input id="fldMobile" type="tel" value="012 3456 7890">
+      </div>
+      <div class="field-group">
+        <label>Extension <span style="font-weight:400; color:var(--muted);">(optional)</span></label>
+        <input id="fldExt" type="text" value="123">
+      </div>
+      <div class="field-group">
+        <label>Email</label>
+        <input id="fldEmail" type="email" value="yourname@thefoxalliance.com">
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary" id="copyBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy signature
+      </button>
+      <button class="btn btn-secondary" id="downloadBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        Download HTML file
+      </button>
+      <button class="btn btn-reset" id="resetBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6M23 20v-6h-6"></path><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+        Reset form
+      </button>
+      <a class="btn btn-ghost" id="installBtn" href="https://blog.gimm.io/installing-email-signatures/" target="_blank" rel="noopener noreferrer">Installation guidance</a>
+    </div>
+  </section>
+
+  <!-- PREVIEW PANEL -->
+  <section class="preview-panel">
+    <div class="preview-label"><span class="dot"></span>Live preview</div>
+    <div class="compose-window">
+      <div class="compose-header">
+        <div class="traffic"><span></span><span></span><span></span></div>
+        <div class="title">New Message</div>
+      </div>
+      <div class="compose-fields">
+        <div class="row"><b>To:</b>client@example.com</div>
+        <div class="row"><b>Subject:</b>Following up on our conversation</div>
+      </div>
+      <div class="compose-body">
+        <div class="greeting">
+          <span class="fake-line" style="width:34%;"></span>
+          <span class="fake-line"></span>
+          <span class="fake-line short"></span>
+        </div>
+        <div id="signatureRender" class="signature-preview">
+  <table id="signatureTemplate" cellpadding="0" cellspacing="0" border="0" width="600" bgcolor="#fffff" style="border-collapse:collapse; width:600px !important; background-color:#ffffff;">
+        <tr>
+            <td>
+                <table cellpadding="0" cellspacing="0" border="0" bgcolor="#fffff" style="border-collapse:collapse; background-color:#ffffff;">
+                    <tr>
+                        <td bgcolor="#ffffff" style="background-color:#ffffff; border-right:2px solid #f15b29; padding-right:15px; vertical-align:top;">
+                            <table cellpadding="0" cellspacing="0" border="0" bgcolor="#fffff" style="border-collapse:collapse; background-color:#ffffff;">
+                                <tr>
+                                    <td align="center" bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
+                                        <p style="margin: 0.04px;">
+                                            <a id="headshotLink" href="https://www.inc.com/profile/the-fox-alliance" target="_blank"><img id="employeeheadshot" src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/Headshot-Placeholder.png" alt="Headshot" width="120" height="120" style="width:120px; height:120px; border:0; display:block;"></a>
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr><td height="10" bgcolor="#ffffff" style="height:10px; background-color:#ffffff; line-height:10px; font-size:0;">&nbsp;</td></tr>
+                                
+                                <tr>
+                                    <td align="center" bgcolor="#ffffff" style="background-color:#ffffff; line-height:14px; white-space:nowrap; ">
+                                        <p style="margin: 0.04px;">
+                                            <span id="employeename" style="color:#162b3b; font-size:13px; font-weight:bold; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Your Name</span>
+                                        </p>
+                                        <p style="margin: 0.04px;">
+                                            <span id="employeetitle" style="color:#000000; font-size:11px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Your Title</span>
+                                        </p>
+                                        <p id="additionalTitleRow" style="margin:0.04px;display:none;">
+                                            <span id="employeeAdditionalTitle" style="color:#000000; font-size:11px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Partner</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td bgcolor="#ffffff" style="background-color:#ffffff; padding-left:15px; vertical-align:top;">
+                            <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" width="320" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff; width:320px !important;">
+                                <tr>
+                                    <td>
+                                        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" width="320" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff; width:320px !important;">
+                                <tr>
+                                    <td align="left" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align: top;">
+                                        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff;">
+                                            <tr>
+                                                <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1.15; white-space:nowrap;">
+                                                    <p style="margin:0.04px;">
+                                                        <span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">O: </span><a id="officelink" style="color:#fff; text-decoration:none; outline:none;" href="tel:01234567890" target="_blank"><span id="officeno" style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">012 3456 7890 ext: 123</span></a>
+                                                    </p>
+                                                    <p id="mobileRow" style="margin: 0.04px; display: none;">
+                                                        <span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">C: </span><a id="Phonelink" style="color:#fff; text-decoration:none; outline:none;" href="tel:01234567890" target="_blank"><span id="phonenumber" style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">012 3456 7890</span></a>
+                                                    </p>
+                                                    <p style="margin:0.04px;">
+                                                        <span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">E: </span><a id="emaillink" style="color:#fff; text-decoration:none; outline:none;" href="mailto:yourname@thefoxalliance.com" target="_blank"><span id="employeeemail" style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">yourname@thefoxalliance.com</span></a>
+                                                    </p>
+                                                    <p style="margin:0.04px;">
+                                                        <span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">W: </span><a style="color:#fff; text-decoration:none; outline:none;" href="https://thefoxalliance.com/" target="_blank"><span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">thefoxalliance.com</span></a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+
+                                            <tr><td height="5" bgcolor="#ffffff" style="height:5px; background-color:#ffffff; line-height:5px; font-size:0;">&nbsp;</td></tr>       
+                                            
+                                            <tr>
+                                                <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px; ">
+                                                    <p style="margin:0.04px;">
+                                                        <a href="https://www.instagram.com/thefoxalliance/" target="_blank"><img src="https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/Insta-Grey-01.png" alt="Instagram Icon" width="22" height="21" style="display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a href="https://www.facebook.com/people/The-Fox-Alliance/100071485974676/" target="_blank"><img src="https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/FB-Grey-01.png" alt="Facebook Icon" width="22" height="21" style="display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a href="https://www.youtube.com/@BeyondtheNoise-TheFoxAlliance" target="_blank"><img src="https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/YT-Grey-01.png" alt="YouTube Icon" width="22" height="21" style="display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a href="https://www.linkedin.com/company/the-fox-alliance-texas/" target="_blank"><img src="https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/Li-Grey-01.png" alt="LinkedIn Icon" width="22" height="21" style="display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                    <td align="right" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align:top;">
+                                        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; background-color:#ffffff;">
+                                            <tr>
+                                                <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
+                                                    <p style="margin:0.04px;">
+                                                        <a href="https://www.forbes.com/companies/the-fox-alliance/?list=wealth-management-teams-best-in-state" target="_blank"><img src="https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/eSig%20Forbes%20Logo.png" alt="Forbes Logo" width="100" height="100" style="width:100px; height:100px; display:block; border:0; outline:none; text-decoration:none;"></a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>                                            
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr><td height="10" bgcolor="#ffffff" style="height:10px; background-color:#ffffff; line-height:10px; font-size:0;">&nbsp;</td></tr>
+
+                                <tr>
+                                    <td bgcolor="#ffffff" style="background-color:#ffffff; padding:0;">
+                                        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; background-color:#ffffff;">
+                                            <tr>
+                                                <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px; vertical-align:bottom; padding:0;">
+                                                    <p style="margin: 0.04px;">
+                                                        <a href="https://thefoxalliance.com/" target="_blank"><img src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/TFA-Logo.png" alt="Logo" width="320" style="width:320px; height:auto; display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>                                
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+      </div>
+    </div>
+    <div class="swap-note">This mirrors the approved Fox Alliance signature template exactly — same logo, social links, and Forbes recognition badge — with only your photo, name, title, and contact details swapped in.</div>
+  </section>
+
+</div>
+
+<div id="copiedToast" class="copied-toast">Signature copied — paste it into your email signature field.</div>
+
+<!-- Reset confirmation modal -->
+<div id="resetModalOverlay" class="modal-overlay">
+  <div class="confirmation-modal">
+    <div class="icon">⚠️</div>
+    <h3>Reset form?</h3>
+    <p>This will clear all your information and restore the default values. This action cannot be undone.</p>
+    <div class="confirmation-actions">
+      <button class="btn btn-secondary" id="resetConfirmNo">Cancel</button>
+      <button class="btn btn-primary" id="resetConfirmYes">Reset everything</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden element used purely as a copy source (execCommand needs a selectable DOM node) -->
+<div id="copySource" style="position:absolute; left:-99999px; top:0; width:560px;"></div>
+
+<script>
+(function(){
+  const els = {
+    headshotFile: document.getElementById('headshotFile'),
+    headshotThumb: document.getElementById('headshotThumb'),
+    name: document.getElementById('fldName'),
+    title: document.getElementById('fldTitle'),
+    additionalTitle: document.getElementById('fldAdditionalTitle'),
+    toggleAdditionalTitle: document.getElementById('toggleAdditionalTitle'),
+    phone: document.getElementById('fldPhone'),
+    mobile: document.getElementById('fldMobile'),
+    toggleMobile: document.getElementById('toggleMobile'),
+    ext: document.getElementById('fldExt'),
+    email: document.getElementById('fldEmail'),
+  };
+
+  // Static brand assets — same across every employee signature, matching
+  // the approved Fox Alliance template.
+  const ASSETS = {
+    instagram: 'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/Insta-Grey-01.png',
+    facebook:  'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/FB-Grey-01.png',
+    youtube:   'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/YT-Grey-01.png',
+    linkedin:  'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/Li-Grey-01.png',
+    forbes:    'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/eSig%20Forbes%20Logo.png',
+    logo:      'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/eSig%20TFA%20Logo.png'
+  };
+  const LINKS = {
+    instagram: 'https://www.instagram.com/thefoxalliance/',
+    facebook:  'https://www.facebook.com/people/The-Fox-Alliance/100071485974676/',
+    youtube:   'http://www.youtube.com/@BeyondtheNoise-TheFoxAlliance',
+    linkedin:  'https://www.linkedin.com/company/the-fox-alliance-texas/',
+    forbes:    'https://www.forbes.com/companies/the-fox-alliance/?list=wealth-management-teams-best-in-state',
+    website:   'https://thefoxalliance.com/'
+  };
+
+  const DEFAULT_HEADSHOT = 'https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/Headshot-Placeholder.png';
+  let headshotSrc = DEFAULT_HEADSHOT;
+
+  function escText(value){
+    return String(value || '').replace(/[&<>"]/g, function(ch){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[ch];
+    });
+  }
+
+  function updateSignatureDOM(){
+    const name = els.name.value.trim() || 'Your Name';
+    const title = els.title.value.trim();
+    const additionalTitle = els.additionalTitle.value.trim();
+    const phone = els.phone.value.trim();
+    const mobile = els.mobile.value.trim();
+    const ext = els.ext.value.trim();
+    const email = els.email.value.trim();
+
+    document.getElementById('employeename').textContent = name;
+    document.getElementById('employeetitle').textContent = title;
+    const additionalTitleRow = document.getElementById('additionalTitleRow');
+    const additionalTitleIncluded = els.toggleAdditionalTitle.checked && additionalTitle;
+    if (additionalTitleIncluded) {
+      document.getElementById('employeeAdditionalTitle').textContent = additionalTitle;
+      additionalTitleRow.style.display = '';
+    } else {
+      additionalTitleRow.style.display = 'none';
+    }
+    document.getElementById('officeno').textContent = ext ? `${phone} ext: ${ext}` : phone;
+    document.getElementById('employeeemail').textContent = email;
+
+    document.getElementById('officelink').href =
+      'tel:' + phone.replace(/[^\d+]/g, '');
+
+    const mobileRow = document.getElementById('mobileRow');
+    const mobileIncluded = els.toggleMobile.checked && mobile;
+    if (mobileIncluded) {
+      document.getElementById('phonenumber').textContent = mobile;
+      document.getElementById('Phonelink').href = 'tel:' + mobile.replace(/[^\d+]/g, '');
+      mobileRow.style.setProperty('display', 'block', '');
+      mobileRow.removeAttribute('hidden');
+    } else {
+      mobileRow.style.setProperty('display', 'none', 'important');
+      mobileRow.setAttribute('hidden', 'hidden');
+    }
+
+    document.getElementById('emaillink').href =
+      'mailto:' + email;
+
+    document.getElementById('employeeheadshot').src = headshotSrc || '';
+    document.getElementById('headshotThumb').src = headshotSrc || '';
+
+    // Keep a completely explicit white background on the email signature.
+    // This prevents Outlook from inheriting the generator's cream/paper UI.
+    document.querySelectorAll('#signatureTemplate table, #signatureTemplate td').forEach(function(node){
+      node.setAttribute('bgcolor', '#ffffff');
+      node.style.backgroundColor = '#ffffff';
+    });
+  }
+
+  function getSignatureHTML(){
+    const clone = document.getElementById('signatureTemplate').cloneNode(true);
+    clone.removeAttribute('id');
+
+    // Respect optional fields in the exported signature. Mobile must not
+    // exist in copied/downloaded HTML when its Include toggle is off.
+    if (!els.toggleMobile.checked) {
+      const clonedMobileRow = clone.querySelector('#mobileRow');
+      if (clonedMobileRow) clonedMobileRow.remove();
+    }
+
+    // Remove generator-only IDs from the copied HTML.
+    clone.querySelectorAll('[id]').forEach(function(node){
+      node.removeAttribute('id');
+    });
+
+    // Add a standalone white wrapper so no parent/background from the builder
+    // can be copied into Outlook.
+    return '<table cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="#ffffff" style="border-collapse:collapse;border-spacing:0;background-color:#ffffff;">' +
+      '<tr><td bgcolor="#ffffff" style="background-color:#ffffff;padding:0;margin:0;">' +
+      clone.outerHTML +
+      '</td></tr></table>';
+  }
+
+  function render(){
+    updateSignatureDOM();
+  }
+
+  // live update
+  [els.name, els.title, els.additionalTitle, els.phone, els.mobile, els.ext, els.email].forEach(function(input){
+    input.addEventListener('input', render);
+  });
+
+  els.toggleMobile.addEventListener('change', render);
+  els.toggleAdditionalTitle.addEventListener('change', render);
+
+els.headshotFile.addEventListener('change', async function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+
+  const uploadLabel = document.getElementById('uploadLabel');
+  uploadLabel.textContent = 'Uploading...';
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const response = await fetch('/api/upload-headshot', {
+      method: 'POST',
+      body: formData
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Upload failed');
+    }
+
+    if (!data.url) {
+      throw new Error('HubSpot did not return an image URL.');
+    }
+
+    // Use the HubSpot-hosted image in the signature
+    headshotSrc = data.url;
+    render();
+
+    uploadLabel.textContent = 'Uploaded ✓';
+
+  } catch (error) {
+    console.error('Headshot upload error:', error);
+
+    uploadLabel.textContent = 'Upload headshot';
+
+    alert(
+      'The headshot could not be uploaded. Please try again.'
+    );
+  }
+});
+
+  // COPY
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    const source = document.getElementById('copySource');
+    source.innerHTML = getSignatureHTML();
+    source.style.backgroundColor = '#ffffff';
+    source.setAttribute('bgcolor', '#ffffff');
+
+    const range = document.createRange();
+    range.selectNodeContents(source);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+
+    let ok = false;
+    try{
+      ok = document.execCommand('copy');
+    }catch(e){ ok = false; }
+
+    sel.removeAllRanges();
+
+    const toast = document.getElementById('copiedToast');
+    toast.textContent = ok
+      ? "Signature copied — paste it into your email client's signature field."
+      : "Couldn't copy automatically — try the Download file button instead.";
+    toast.classList.add('show');
+    setTimeout(function(){ toast.classList.remove('show'); }, 3200);
+  });
+
+  // DOWNLOAD
+  document.getElementById('downloadBtn').addEventListener('click', function(){
+    const inner = getSignatureHTML();
+    const doc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<title>Email Signature</title>
+</head>
+<body style="background:#ffffff;">
+${inner}
+</body>
+</html>`;
+
+    const blob = new Blob([doc], {type:'text/html'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const fileName = (els.name.value || 'email-signature').trim().toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+    a.href = url;
+    a.download = (fileName || 'email-signature') + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+// RESET BUTTON
+const resetBtn = document.getElementById('resetBtn');
+const resetModalOverlay = document.getElementById('resetModalOverlay');
+const resetConfirmNo = document.getElementById('resetConfirmNo');
+const resetConfirmYes = document.getElementById('resetConfirmYes');
+
+resetBtn.addEventListener('click', function(){
+  resetModalOverlay.classList.add('show');
+});
+
+resetConfirmNo.addEventListener('click', function(){
+  resetModalOverlay.classList.remove('show');
+});
+
+resetConfirmYes.addEventListener('click', function(){
+  // Reset all form fields to defaults
+  els.name.value = 'Your Name';
+  els.title.value = 'Your Title';
+  els.additionalTitle.value = 'Partner';
+  els.toggleAdditionalTitle.checked = false;
+  els.phone.value = '012 3456 7890';
+  els.mobile.value = '012 3456 7890';
+  els.toggleMobile.checked = false;
+  els.ext.value = '123';
+  els.email.value = 'yourname@thefoxalliance.com';
+  headshotSrc = DEFAULT_HEADSHOT;
+  els.headshotFile.value = '';
+  document.getElementById('uploadLabel').textContent = 'Upload headshot';
+  
+  // Update the preview
+  render();
+  
+  // Close the modal
+  resetModalOverlay.classList.remove('show');
+});
+
+// Close reset modal when clicking outside
+resetModalOverlay.addEventListener('click', function(e){
+  if(e.target === resetModalOverlay) {
+    resetModalOverlay.classList.remove('show');
+  }
+});
+  // MODAL
+  const overlay = document.getElementById('modalOverlay');
+  // Installation guidance opens the external Gimmio installation guide.
+  document.getElementById('modalClose').addEventListener('click', ()=> overlay.classList.remove('show'));
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) overlay.classList.remove('show'); });
+
+  document.querySelectorAll('.tab').forEach(tab=>{
+    tab.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+      this.classList.add('active');
+      document.querySelector(`.tab-panel[data-panel="${this.dataset.tab}"]`).classList.add('active');
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
