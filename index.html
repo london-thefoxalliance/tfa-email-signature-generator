@@ -179,6 +179,26 @@
     background:#fff;
   }
 
+  .brand-switcher{display:flex; gap:8px;}
+  .brand-option{
+    font-family:var(--font-body);
+    font-size:13px;
+    font-weight:600;
+    padding:9px 18px;
+    border-radius:8px;
+    border:1.5px solid var(--line);
+    background:#fdfcfa;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:border-color .15s ease, color .15s ease, background .15s ease;
+  }
+  .brand-option:hover{border-color:var(--navy); color:var(--navy);}
+  .brand-option.active{
+    border-color:var(--navy);
+    background:var(--navy);
+    color:#fff;
+  }
+
   .headshot-row{display:flex; gap:13px; align-items:center;}
   .headshot-thumb{
     width:56px;height:56px;
@@ -508,6 +528,19 @@
     <div class="section-card">
       <div class="section-head">
         <span class="num">01</span>
+        <h2>Signature type</h2>
+      </div>
+      <div class="field-group">
+        <div class="brand-switcher" role="group" aria-label="Signature type">
+          <button type="button" class="brand-option active" data-brand="wealth">Wealth</button>
+          <button type="button" class="brand-option" data-brand="tax">Tax</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-head">
+        <span class="num">02</span>
         <h2>Photo</h2>
       </div>
       <div class="field-group">
@@ -525,7 +558,7 @@
 
     <div class="section-card">
       <div class="section-head">
-        <span class="num">02</span>
+        <span class="num">03</span>
         <h2>Identity</h2>
       </div>
       <div class="field-group">
@@ -550,7 +583,7 @@
 
     <div class="section-card">
       <div class="section-head">
-        <span class="num">03</span>
+        <span class="num">04</span>
         <h2>Contact</h2>
       </div>
       <div class="field-group">
@@ -666,7 +699,7 @@
                                                         <span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">E: </span><a id="emaillink" style="color:#fff; text-decoration:none; outline:none;" href="mailto:yourname@thefoxalliance.com" target="_blank"><span id="employeeemail" style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">yourname@thefoxalliance.com</span></a>
                                                     </p>
                                                     <p style="margin:0.04px;">
-                                                        <span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">W: </span><a style="color:#fff; text-decoration:none; outline:none;" href="https://thefoxalliance.com/" target="_blank"><span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">thefoxalliance.com</span></a>
+                                                        <span style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">W: </span><a id="websiteLink" style="color:#fff; text-decoration:none; outline:none;" href="https://thefoxalliance.com/" target="_blank"><span id="websiteText" style="color:#162b3b; font-size:13px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">thefoxalliance.com</span></a>
                                                     </p>
                                                 </td>
                                             </tr>
@@ -686,7 +719,7 @@
                                         </table>
                                     </td>
 
-                                    <td align="right" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align:top;">
+                                    <td id="brandRightItem" align="right" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align:top;">
                                         <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; background-color:#ffffff;">
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
@@ -710,7 +743,7 @@
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px; vertical-align:bottom; padding:0;">
                                                     <p style="margin: 0.04px;">
-                                                        <a href="https://thefoxalliance.com/" target="_blank"><img src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/TFA-Logo.png" alt="Logo" width="320" style="width:320px; height:auto; display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a id="brandLogoLink" href="https://thefoxalliance.com/" target="_blank"><img id="brandLogo" src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/TFA-Logo.png" alt="The Fox Alliance Wealth Advisors" width="320" style="width:320px; height:auto; display:inline; border:0; outline:none; text-decoration:none;"></a>
                                                     </p>
                                                 </td>
                                             </tr>
@@ -727,7 +760,7 @@
 </div>
       </div>
     </div>
-    <div class="swap-note">This mirrors the approved Fox Alliance signature template exactly — same logo, social links, and Forbes recognition badge — with only your photo, name, title, and contact details swapped in.</div>
+    <div class="swap-note">This preview mirrors the approved Fox Alliance signature template. Choose Wealth or Tax, enter your information, then copy or download the finished signature.</div>
   </section>
 
 </div>
@@ -787,6 +820,49 @@
 
   const DEFAULT_HEADSHOT = 'https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/Headshot-Placeholder.png';
   let headshotSrc = DEFAULT_HEADSHOT;
+
+  // Brand configuration — the signature template, form, and headshot flow
+  // are shared. Only these brand-specific assets and links change when the
+  // user switches between Wealth and Tax.
+  let activeBrand = 'wealth';
+
+  const BRANDS = {
+    wealth: {
+      label: 'Wealth',
+      websiteText: 'thefoxalliance.com',
+      websiteHref: 'https://thefoxalliance.com/',
+      logoSrc: ASSETS.logo,
+      logoAlt: 'The Fox Alliance Wealth Advisors',
+      logoHref: 'https://thefoxalliance.com/',
+      rightItem: {
+        type: 'image',
+        href: LINKS.forbes,
+        src: ASSETS.forbes,
+        alt: 'Forbes Logo',
+        width: 100,
+        height: 100
+      }
+    },
+
+    tax: {
+      label: 'Tax',
+      websiteText: 'foxalliancetax.com',
+      websiteHref: 'https://foxalliancetax.com/',
+      // TODO: replace with the public URL of the approved Tax logo once it
+      // has been uploaded to Salesforce Files and shared as a public link.
+      // See README.md for step-by-step instructions.
+      logoSrc: 'REPLACE_WITH_PUBLIC_TAX_LOGO_URL',
+      logoAlt: 'The Fox Alliance Tax',
+      logoHref: 'https://foxalliancetax.com/',
+      rightItem: {
+        type: 'button',
+        href: 'https://thefoxalliance.taxdome.com/login',
+        text: 'Client Portal',
+        width: 100,
+        height: 50
+      }
+    }
+  };
 
   function escText(value){
     return String(value || '').replace(/[&<>"]/g, function(ch){
@@ -869,9 +945,88 @@
       '</td></tr></table>';
   }
 
+  function renderBrand(){
+    const brand = BRANDS[activeBrand];
+
+    const websiteLink = document.getElementById('websiteLink');
+    const websiteText = document.getElementById('websiteText');
+    const brandLogoLink = document.getElementById('brandLogoLink');
+    const brandLogo = document.getElementById('brandLogo');
+    const rightItem = document.getElementById('brandRightItem');
+
+    websiteLink.href = brand.websiteHref;
+    websiteText.textContent = brand.websiteText;
+
+    brandLogoLink.href = brand.logoHref;
+    brandLogo.src = brand.logoSrc;
+    brandLogo.alt = brand.logoAlt;
+
+    if (brand.rightItem.type === 'image') {
+      rightItem.innerHTML = `
+        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff"
+          style="border-collapse:collapse; background-color:#ffffff;">
+          <tr>
+            <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
+              <p style="margin:0.04px;">
+                <a href="${brand.rightItem.href}" target="_blank">
+                  <img
+                    src="${brand.rightItem.src}"
+                    alt="${brand.rightItem.alt}"
+                    width="${brand.rightItem.width}"
+                    height="${brand.rightItem.height}"
+                    style="width:${brand.rightItem.width}px; height:${brand.rightItem.height}px; display:block; border:0; outline:none; text-decoration:none;"
+                  >
+                </a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      `;
+    } else {
+      rightItem.innerHTML = `
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100"
+          style="border-collapse:separate; width:100px;">
+          <tr>
+            <td
+              align="center"
+              valign="middle"
+              width="100"
+              height="50"
+              bgcolor="#0b3352"
+              style="width:100px; height:50px; background-color:#0b3352; border-radius:8px;"
+            >
+              <a
+                href="${brand.rightItem.href}"
+                target="_blank"
+                style="display:block; width:100px; line-height:50px; color:#ffffff; font-family:Arial,Helvetica,sans-serif; font-size:12px; font-weight:bold; text-decoration:none; white-space:nowrap;"
+              >
+                ${brand.rightItem.text}
+              </a>
+            </td>
+          </tr>
+        </table>
+      `;
+    }
+
+    // Reflect the active brand in the form's own UI (not part of the
+    // copied/downloaded signature).
+    document.querySelectorAll('[data-brand]').forEach(function(button){
+      button.classList.toggle('active', button.dataset.brand === activeBrand);
+    });
+  }
+
   function render(){
     updateSignatureDOM();
+    renderBrand();
   }
+
+  // BRAND SWITCHER
+  document.querySelectorAll('[data-brand]').forEach(function(button){
+    button.addEventListener('click', function(){
+      activeBrand = button.dataset.brand;
+      render();
+    });
+  });
 
   // live update
   [els.name, els.title, els.additionalTitle, els.phone, els.mobile, els.ext, els.email].forEach(function(input){
@@ -904,10 +1059,10 @@ els.headshotFile.addEventListener('change', async function(e){
     }
 
     if (!data.url) {
-      throw new Error('HubSpot did not return an image URL.');
+      throw new Error('Salesforce did not return an image URL.');
     }
 
-    // Use the HubSpot-hosted image in the signature
+    // Use the Salesforce-hosted public image in the signature
     headshotSrc = data.url;
     render();
 
