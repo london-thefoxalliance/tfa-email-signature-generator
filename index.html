@@ -736,7 +736,7 @@
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
                                                     <p style="margin:0.04px;">
-                                                        <a href="https://www.forbes.com/companies/the-fox-alliance/?list=wealth-management-teams-best-in-state" target="_blank"><img src="eSig%20Forbes%20Logo.png" alt="Forbes Logo" width="100" height="100" style="width:100px; height:100px; display:block; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a href="https://www.forbes.com/companies/the-fox-alliance/?list=wealth-management-teams-best-in-state" target="_blank"><img src="eSig%20Forbes%20Logo.png" alt="Forbes Logo" width="115" height="100" style="width:115px; height:100px; display:block; border:0; outline:none; text-decoration:none;"></a>
                                                     </p>
                                                 </td>
                                             </tr>
@@ -845,6 +845,18 @@
   const LOGO_HEIGHT = 61;
   const BASE_LOGO_ALIGN_SPACER = 10;
 
+  // Forbes badge — preserve the image's native aspect ratio (920×800) instead
+  // of forcing a square crop. Right-aligned to match the Wealth logo edge.
+  const FORBES_LOGO = {
+    file: 'eSig Forbes Logo.png',
+    naturalWidth: 920,
+    naturalHeight: 800,
+    displayHeight: 100
+  };
+  FORBES_LOGO.displayWidth = Math.round(
+    FORBES_LOGO.displayHeight * FORBES_LOGO.naturalWidth / FORBES_LOGO.naturalHeight
+  );
+
   // Brand configuration — the signature template, form, and headshot flow
   // are shared. Only these brand-specific assets and links change when the
   // user switches between Wealth and Tax.
@@ -863,8 +875,8 @@
         href: LINKS.forbes,
         src: ASSETS.forbes,
         alt: 'Forbes Logo',
-        width: 100,
-        height: 100
+        width: FORBES_LOGO.displayWidth,
+        height: FORBES_LOGO.displayHeight
       }
     },
 
@@ -994,11 +1006,11 @@
 
     if (brand.rightItem.type === 'image') {
       rightItem.innerHTML = `
-        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff"
-          style="border-collapse:collapse; background-color:#ffffff;">
+        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" align="right"
+          style="border-collapse:collapse; background-color:#ffffff; margin-left:auto;">
           <tr>
-            <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
-              <p style="margin:0.04px;">
+            <td align="right" bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
+              <p style="margin:0.04px; text-align:right;">
                 <a href="${brand.rightItem.href}" target="_blank">
                   <img
                     src="${brand.rightItem.src}"
@@ -1047,7 +1059,7 @@
   }
 
   // The right-hand column's content above the brand logo varies by brand
-  // (Wealth's 100x100 Forbes badge vs. Tax's 100x50 Client Portal button)
+  // (Wealth's Forbes badge vs. Tax's 100x50 Client Portal button)
   // and the left-hand identity block's height varies with the optional
   // additional title. Both of those can change how tall each column is,
   // so — for BOTH brands — measure the actual rendered bottoms and pad
