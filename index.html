@@ -904,16 +904,13 @@
       additionalTitleRow.style.display = 'none';
     }
 
-    const brandLogoSpacer = document.getElementById('brandLogoSpacer');
+    // brandLogoSpacer sits between the headshot and the identity block and
+    // stays a fixed height no matter what. The identity block (name, title,
+    // and — when shown — the additional title) must never shift vertically
+    // when the optional title is toggled; only new content should be
+    // appended below it, growing the signature downward instead of
+    // pushing everything above it down.
 
-    // The identity block uses a 14px line height.
-    // Add another 14px whenever the optional title is shown.
-    const logoSpacerHeight = additionalTitleIncluded ? 34 : 20;
-    
-    brandLogoSpacer.setAttribute('height', logoSpacerHeight);
-    brandLogoSpacer.style.height = `${logoSpacerHeight}px`;
-    brandLogoSpacer.style.lineHeight = `${logoSpacerHeight}px`;
-    
     document.getElementById('officeno').textContent = ext ? `${phone} ext: ${ext}` : phone;
     document.getElementById('employeeemail').textContent = email;
 
@@ -1047,8 +1044,14 @@
   // and leaves the bottom brand logo sitting well above the left-hand
   // name/title block. Measure both columns' actual rendered bottoms and
   // pad the spacer above the logo so its bottom edge lines up with the
-  // bottom of the identity block (name, title, and — when shown —
-  // additional title), rather than relying on hardcoded offsets.
+  // bottom of the employee title line.
+  //
+  // Anchoring to the title line (rather than the identity block as a
+  // whole) is deliberate: the optional additional-title row is appended
+  // *below* the title, so the title's bottom position is constant whether
+  // or not that row is shown. That keeps the brand logo's vertical
+  // position fixed too — toggling the additional title should only make
+  // the signature taller, never move the logo (or anything above it).
   function alignBrandLogo(){
     const spacer = document.getElementById('brandLogoAlignSpacer');
 
@@ -1059,11 +1062,11 @@
       return;
     }
 
-    const identityBlock = document.getElementById('identityBlock');
+    const titleLine = document.getElementById('employeetitle');
     const contactInfoCell = document.getElementById('contactInfoCell');
     const rightItemCell = document.getElementById('brandRightItem');
 
-    const leftBottom = identityBlock.getBoundingClientRect().bottom;
+    const leftBottom = titleLine.getBoundingClientRect().bottom;
     const rightContentBottom = Math.max(
       contactInfoCell.getBoundingClientRect().bottom,
       rightItemCell.getBoundingClientRect().bottom
