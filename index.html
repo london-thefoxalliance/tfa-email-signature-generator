@@ -1039,42 +1039,48 @@
     });
   }
 
-  // The Tax "Client Portal" button (50px tall) is shorter than the Wealth
-  // Forbes badge (100px tall), which shortens the whole right-hand column
-  // and leaves the bottom brand logo sitting well above the left-hand
-  // name/title block. Measure both columns' actual rendered bottoms and
-  // pad the spacer above the logo so its bottom edge lines up with the
-  // bottom of the employee title line.
+  // The right-hand column's content above the brand logo varies by brand
+  // (Wealth's 100x100 Forbes badge vs. Tax's 100x50 Client Portal button)
+  // and the left-hand identity block's height varies with the optional
+  // additional title. Both of those can change how tall each column is,
+  // so — for BOTH brands — measure the actual rendered bottoms and pad
+  // the spacer directly above the logo so the logo's *bottom* edge lands
+  // exactly on the bottom edge of the bottom-most identity line.
   //
-  // Anchoring to the title line (rather than the identity block as a
-  // whole) is deliberate: the optional additional-title row is appended
-  // *below* the title, so the title's bottom position is constant whether
-  // or not that row is shown. That keeps the brand logo's vertical
-  // position fixed too — toggling the additional title should only make
-  // the signature taller, never move the logo (or anything above it).
+  // The bottom-most identity line is #employeeAdditionalTitle ("Partner")
+  // when the additional title is enabled and has text, otherwise
+  // #employeetitle ("Your Title"). Anchoring to whichever line is
+  // currently the last one — rather than always the identity block or
+  // always the title — is what keeps the logo aligned in all four
+  // Wealth/Tax x on/off combinations, while never moving the headshot,
+  // name, or title themselves.
   function alignBrandLogo(){
     const spacer = document.getElementById('brandLogoAlignSpacer');
 
-    if (activeBrand !== 'tax') {
-      spacer.setAttribute('height', BASE_LOGO_ALIGN_SPACER);
-      spacer.style.height = BASE_LOGO_ALIGN_SPACER + 'px';
-      spacer.style.lineHeight = BASE_LOGO_ALIGN_SPACER + 'px';
-      return;
-    }
+    const additionalTitleIncluded =
+      els.toggleAdditionalTitle.checked &&
+      Boolean(els.additionalTitle.value.trim());
 
-    const titleLine = document.getElementById('employeetitle');
+    const bottomIdentityElement = additionalTitleIncluded
+      ? document.getElementById('employeeAdditionalTitle')
+      : document.getElementById('employeetitle');
+
     const contactInfoCell = document.getElementById('contactInfoCell');
     const rightItemCell = document.getElementById('brandRightItem');
 
-    const leftBottom = titleLine.getBoundingClientRect().bottom;
+    const leftBottom = bottomIdentityElement.getBoundingClientRect().bottom;
     const rightContentBottom = Math.max(
       contactInfoCell.getBoundingClientRect().bottom,
       rightItemCell.getBoundingClientRect().bottom
     );
 
+    // spacerHeight solves: rightContentBottom + spacerHeight + LOGO_HEIGHT === leftBottom
     const needed = Math.round(leftBottom - rightContentBottom - LOGO_HEIGHT);
     const spacerHeight = Math.max(BASE_LOGO_ALIGN_SPACER, needed);
 
+    // Write explicit, email-safe values (attribute + inline style) so the
+    // exported table has a fixed pixel height baked in — Outlook renders
+    // this spacer correctly without needing JavaScript.
     spacer.setAttribute('height', spacerHeight);
     spacer.style.height = spacerHeight + 'px';
     spacer.style.lineHeight = spacerHeight + 'px';
