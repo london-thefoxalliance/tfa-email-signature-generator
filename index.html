@@ -671,7 +671,7 @@
                                 </tr>
                                 
                                 <tr>
-                                    <td align="center" bgcolor="#ffffff" style="background-color:#ffffff; line-height:14px; white-space:nowrap; ">
+                                    <td id="identityBlock" align="center" bgcolor="#ffffff" style="background-color:#ffffff; line-height:14px; white-space:nowrap; ">
                                         <p style="margin: 0.04px;">
                                             <span id="employeename" style="color:#162b3b; font-size:13px; font-weight:bold; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Your Name</span>
                                         </p>
@@ -692,7 +692,7 @@
                                     <td>
                                         <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" width="320" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff; width:320px !important;">
                                 <tr>
-                                    <td align="left" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align: top;">
+                                    <td id="contactInfoCell" align="left" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align: top;">
                                         <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff;">
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1.15; white-space:nowrap;">
@@ -742,7 +742,7 @@
                                     </td>
                                 </tr>
 
-                                <tr><td height="10" bgcolor="#ffffff" style="height:10px; background-color:#ffffff; line-height:10px; font-size:0;">&nbsp;</td></tr>
+                                <tr><td id="brandLogoAlignSpacer" height="10" bgcolor="#ffffff" style="height:10px; background-color:#ffffff; line-height:10px; font-size:0;">&nbsp;</td></tr>
 
                                 <tr>
                                     <td bgcolor="#ffffff" style="background-color:#ffffff; padding:0;">
@@ -750,7 +750,7 @@
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px; vertical-align:bottom; padding:0;">
                                                     <p style="margin: 0.04px;">
-                                                        <a id="brandLogoLink" href="https://thefoxalliance.com/" target="_blank"><img id="brandLogo" src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/TFA-Logo.png" alt="The Fox Alliance Wealth Advisors" width="320" style="width:320px; height:auto; display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a id="brandLogoLink" href="https://thefoxalliance.com/" target="_blank"><img id="brandLogo" src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/TFA-Logo.png" alt="The Fox Alliance Wealth Advisors" width="320" height="61" style="width:320px; height:61px; display:inline; border:0; outline:none; text-decoration:none;"></a>
                                                     </p>
                                                 </td>
                                             </tr>
@@ -827,6 +827,13 @@
 
   const DEFAULT_HEADSHOT = 'https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/Headshot-Placeholder.png';
   let headshotSrc = DEFAULT_HEADSHOT;
+
+  // Both the Wealth and Tax wordmarks share almost the same aspect ratio,
+  // so at a fixed 320px width they both render at ~61px tall. Locking this
+  // in as an explicit height (instead of height:auto) keeps layout math
+  // below predictable and avoids reflow while the image loads.
+  const LOGO_HEIGHT = 61;
+  const BASE_LOGO_ALIGN_SPACER = 10;
 
   // Brand configuration — the signature template, form, and headshot flow
   // are shared. Only these brand-specific assets and links change when the
@@ -978,6 +985,8 @@
     brandLogoLink.href = brand.logoHref;
     brandLogo.src = brand.logoSrc;
     brandLogo.alt = brand.logoAlt;
+    brandLogo.setAttribute('height', LOGO_HEIGHT);
+    brandLogo.style.height = LOGO_HEIGHT + 'px';
 
     if (brand.rightItem.type === 'image') {
       rightItem.innerHTML = `
@@ -1033,9 +1042,45 @@
     });
   }
 
+  // The Tax "Client Portal" button (50px tall) is shorter than the Wealth
+  // Forbes badge (100px tall), which shortens the whole right-hand column
+  // and leaves the bottom brand logo sitting well above the left-hand
+  // name/title block. Measure both columns' actual rendered bottoms and
+  // pad the spacer above the logo so its bottom edge lines up with the
+  // bottom of the identity block (name, title, and — when shown —
+  // additional title), rather than relying on hardcoded offsets.
+  function alignBrandLogo(){
+    const spacer = document.getElementById('brandLogoAlignSpacer');
+
+    if (activeBrand !== 'tax') {
+      spacer.setAttribute('height', BASE_LOGO_ALIGN_SPACER);
+      spacer.style.height = BASE_LOGO_ALIGN_SPACER + 'px';
+      spacer.style.lineHeight = BASE_LOGO_ALIGN_SPACER + 'px';
+      return;
+    }
+
+    const identityBlock = document.getElementById('identityBlock');
+    const contactInfoCell = document.getElementById('contactInfoCell');
+    const rightItemCell = document.getElementById('brandRightItem');
+
+    const leftBottom = identityBlock.getBoundingClientRect().bottom;
+    const rightContentBottom = Math.max(
+      contactInfoCell.getBoundingClientRect().bottom,
+      rightItemCell.getBoundingClientRect().bottom
+    );
+
+    const needed = Math.round(leftBottom - rightContentBottom - LOGO_HEIGHT);
+    const spacerHeight = Math.max(BASE_LOGO_ALIGN_SPACER, needed);
+
+    spacer.setAttribute('height', spacerHeight);
+    spacer.style.height = spacerHeight + 'px';
+    spacer.style.lineHeight = spacerHeight + 'px';
+  }
+
   function render(){
     updateSignatureDOM();
     renderBrand();
+    alignBrandLogo();
   }
 
   // BRAND SWITCHER
