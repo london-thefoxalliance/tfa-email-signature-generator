@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Fox Alliance — Signature Studio</title>
-<link rel="icon" type="image/jpeg" href="/eSig%20Fox%20Logo.jpg">
-<link rel="apple-touch-icon" href="/eSig%20Fox%20Logo.jpg">
+<link rel="icon" type="image/jpeg" href="eSig%20Fox%20Logo.jpg">
+<link rel="apple-touch-icon" href="eSig%20Fox%20Logo.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -513,7 +513,7 @@
 <div class="topbar">
   <div class="brand">
     <div class="mark">
-      <img src="/eSig%20Fox%20Logo.jpg" alt="The Fox Alliance">
+      <img src="eSig%20Fox%20Logo.jpg" alt="The Fox Alliance">
     </div>
     <div class="brand-text">
       <div class="name">The Fox Alliance</div>
@@ -755,7 +755,7 @@
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px; vertical-align:bottom; padding:0;">
                                                     <p style="margin: 0.04px;">
-                                                        <a id="brandLogoLink" href="https://thefoxalliance.com/" target="_blank"><img id="brandLogo" src="https://243204637.fs1.hubspotusercontent-na2.net/hubfs/243204637/TFA-Logo.png" alt="The Fox Alliance Wealth Advisors" width="320" height="61" style="width:320px; height:61px; display:inline; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a id="brandLogoLink" href="https://thefoxalliance.com/" target="_blank"><img id="brandLogo" src="eSig%20Wealth%20Logo.webp" alt="The Fox Alliance Wealth Advisors" width="320" height="61" style="width:320px; height:61px; display:inline; border:0; outline:none; text-decoration:none;"></a>
                                                     </p>
                                                 </td>
                                             </tr>
@@ -811,6 +811,12 @@
     email: document.getElementById('fldEmail'),
   };
 
+  // Resolve a static asset to an absolute URL so it works on GitHub Pages
+  // project sites (served from a subdirectory) and in copied email signatures.
+  function assetUrl(filename) {
+    return new URL(encodeURI(filename), window.location.href).href;
+  }
+
   // Static brand assets — same across every employee signature, matching
   // the approved Fox Alliance template.
   const ASSETS = {
@@ -818,8 +824,7 @@
     facebook:  'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/FB-Grey-01.png',
     youtube:   'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/YT-Grey-01.png',
     linkedin:  'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/Li-Grey-01.png',
-    forbes:    'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/eSig%20Forbes%20Logo.png',
-    logo:      'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/eSig%20TFA%20Logo.png'
+    forbes:    'https://47703790.fs1.hubspotusercontent-na1.net/hubfs/47703790/eSig%20Forbes%20Logo.png'
   };
   const LINKS = {
     instagram: 'https://www.instagram.com/thefoxalliance/',
@@ -850,7 +855,7 @@
       label: 'Wealth',
       websiteText: 'thefoxalliance.com',
       websiteHref: 'https://thefoxalliance.com/',
-      logoSrc: ASSETS.logo,
+      logoSrc: assetUrl('eSig Wealth Logo.webp'),
       logoAlt: 'The Fox Alliance Wealth Advisors',
       logoHref: 'https://thefoxalliance.com/',
       rightItem: {
@@ -867,10 +872,7 @@
       label: 'Tax',
       websiteText: 'foxalliancetax.com',
       websiteHref: 'https://foxalliancetax.com/',
-      // TODO: replace with the public URL of the approved Tax logo once it
-      // has been uploaded to Salesforce Files and shared as a public link.
-      // See README.md for step-by-step instructions.
-      logoSrc: '/eSig%20Tax%20Logo.png',
+      logoSrc: assetUrl('eSig Tax Logo.png'),
       logoAlt: 'The Fox Alliance Tax',
       logoHref: 'https://foxalliancetax.com/',
       rightItem: {
