@@ -736,7 +736,7 @@
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
                                                     <p style="margin:0.04px;">
-                                                        <a href="https://www.forbes.com/companies/the-fox-alliance/?list=wealth-management-teams-best-in-state" target="_blank"><img src="eSig%20Forbes%20Logo.png" alt="Forbes Logo" width="104" height="90" style="width:104px; height:90px; display:block; border:0; outline:none; text-decoration:none;"></a>
+                                                        <a href="https://www.forbes.com/companies/the-fox-alliance/?list=wealth-management-teams-best-in-state" target="_blank"><img src="eSig%20Forbes%20Logo.png" alt="Forbes Logo" width="90" height="90" style="width:90px; height:90px; display:block; border:0; outline:none; text-decoration:none;"></a>
                                                     </p>
                                                 </td>
                                             </tr>
@@ -854,17 +854,12 @@
     logoWidth: 288,
     logoHeight: 55,
     baseLogoAlignSpacer: 9,
-    forbesNaturalWidth: 920,
-    forbesNaturalHeight: 800,
-    forbesDisplayHeight: 90,
+    forbesSize: 90,
     clientPortalW: 90,
     clientPortalH: 45,
     clientPortalFont: 11,
     clientPortalRadius: 7
   };
-  SIG.forbesDisplayWidth = Math.round(
-    SIG.forbesDisplayHeight * SIG.forbesNaturalWidth / SIG.forbesNaturalHeight
-  );
 
   // Brand configuration — the signature template, form, and headshot flow
   // are shared. Only these brand-specific assets and links change when the
@@ -885,8 +880,8 @@
         href: LINKS.forbes,
         src: ASSETS.forbes,
         alt: 'Forbes Logo',
-        width: SIG.forbesDisplayWidth,
-        height: SIG.forbesDisplayHeight
+        width: SIG.forbesSize,
+        height: SIG.forbesSize
       }
     },
 
