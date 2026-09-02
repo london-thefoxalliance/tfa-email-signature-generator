@@ -656,7 +656,10 @@
             <td>
                 <table cellpadding="0" cellspacing="0" border="0" bgcolor="#fffff" style="border-collapse:collapse; background-color:#ffffff;">
                     <tr>
-                        <td bgcolor="#ffffff" style="background-color:#ffffff; border-right:2px solid #f15b29; padding-right:14px; vertical-align:top;">
+                        <td bgcolor="#ffffff" style="background-color:#ffffff; vertical-align:top;">
+                            <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" align="left" style="border-collapse:collapse; background-color:#ffffff;">
+                                <tr>
+                                    <td id="leftColumn" bgcolor="#ffffff" valign="top" style="background-color:#ffffff; border-right:2px solid #f15b29; padding-right:14px; vertical-align:top; height:1px; line-height:normal;">
                             <table cellpadding="0" cellspacing="0" border="0" bgcolor="#fffff" style="border-collapse:collapse; background-color:#ffffff;">
                                 <tr>
                                     <td align="center" bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px;">
@@ -676,16 +679,19 @@
                                 </tr>
                                 
                                 <tr>
-                                    <td id="identityBlock" align="center" bgcolor="#ffffff" style="background-color:#ffffff; line-height:13px; white-space:nowrap; ">
+                                    <td id="identityBlock" align="center" bgcolor="#ffffff" style="background-color:#ffffff; white-space:nowrap; ">
                                         <p style="margin: 0.04px;">
-                                            <span id="employeename" style="color:#162b3b; font-size:12px; font-weight:bold; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Your Name</span>
+                                            <span id="employeename" style="color:#162b3b; font-size:12px; line-height:12px; font-weight:bold; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Your Name</span>
                                         </p>
                                         <p style="margin: 0.04px;">
-                                            <span id="employeetitle" style="color:#000000; font-size:10px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Your Title</span>
+                                            <span id="employeetitle" style="color:#000000; font-size:10px; line-height:10px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Your Title</span>
                                         </p>
                                         <p id="additionalTitleRow" style="margin:0.04px;display:none;">
-                                            <span id="employeeAdditionalTitle" style="color:#000000; font-size:10px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Partner</span>
+                                            <span id="employeeAdditionalTitle" style="color:#000000; font-size:10px; line-height:10px; font-weight:500; font-family:Georgia,'Times New Roman',Times,serif; text-decoration:none;">Partner</span>
                                         </p>
+                                    </td>
+                                </tr>
+                            </table>
                                     </td>
                                 </tr>
                             </table>
@@ -694,10 +700,7 @@
                         <td bgcolor="#ffffff" style="background-color:#ffffff; padding-left:14px; vertical-align:top;">
                             <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" width="288" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff; width:288px !important;">
                                 <tr>
-                                    <td>
-                                        <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" width="288" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff; width:288px !important;">
-                                <tr>
-                                    <td id="contactInfoCell" align="left" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align: top;">
+                                    <td id="contactInfoCell" align="left" bgcolor="#ffffff" style="background-color:#ffffff; vertical-align:top;">
                                         <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; border-spacing:0; background-color:#ffffff;">
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1.15; white-space:nowrap;">
@@ -742,15 +745,12 @@
                                             </tr>
                                         </table>
                                     </td>
-                                </tr>                                            
-                                        </table>
-                                    </td>
                                 </tr>
 
-                                <tr><td id="brandLogoAlignSpacer" height="9" bgcolor="#ffffff" style="height:9px; background-color:#ffffff; line-height:9px; font-size:0;">&nbsp;</td></tr>
+                                <tr><td id="brandLogoAlignSpacer" colspan="2" height="9" bgcolor="#ffffff" style="height:9px; background-color:#ffffff; line-height:9px; font-size:0;">&nbsp;</td></tr>
 
                                 <tr>
-                                    <td bgcolor="#ffffff" style="background-color:#ffffff; padding:0;">
+                                    <td colspan="2" bgcolor="#ffffff" style="background-color:#ffffff; padding:0;">
                                         <table cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="border-collapse:collapse; background-color:#ffffff;">
                                             <tr>
                                                 <td bgcolor="#ffffff" style="background-color:#ffffff; line-height:1px; vertical-align:bottom; padding:0;">
@@ -761,7 +761,7 @@
                                             </tr>
                                         </table>
                                     </td>
-                                </tr>                                
+                                </tr>
                             </table>
                         </td>
                     </tr>
@@ -842,6 +842,7 @@
   const SIG = {
     outerWidth: 540,
     headshot: 108,
+    headshotMax: 120,
     headshotTextSpacer: 10,
     columnPadding: 14,
     rightColWidth: 288,
@@ -1069,6 +1070,56 @@
     });
   }
 
+  // Orange divider sits on the inner left table so it ends at the title text,
+  // not at the bottom of the full right column. Grow the headshot if extra
+  // whitespace appears between the headshot and the name block.
+  function alignLeftColumn(){
+    const headshot = document.getElementById('employeeheadshot');
+    const spacer = document.getElementById('brandLogoSpacer');
+    const leftColumn = document.getElementById('leftColumn');
+    const identityBlock = document.getElementById('identityBlock');
+
+    let headshotSize = SIG.headshot;
+    const spacerHeight = SIG.headshotTextSpacer;
+
+    headshot.setAttribute('width', headshotSize);
+    headshot.setAttribute('height', headshotSize);
+    headshot.style.width = headshotSize + 'px';
+    headshot.style.height = headshotSize + 'px';
+
+    spacer.setAttribute('height', spacerHeight);
+    spacer.style.height = spacerHeight + 'px';
+    spacer.style.lineHeight = spacerHeight + 'px';
+
+    const measuredGap = Math.round(
+      identityBlock.getBoundingClientRect().top - headshot.getBoundingClientRect().bottom
+    );
+    const excessGap = measuredGap - SIG.headshotTextSpacer;
+
+    if (excessGap > 1) {
+      headshotSize += Math.min(excessGap, SIG.headshotMax - SIG.headshot);
+      headshot.setAttribute('width', headshotSize);
+      headshot.setAttribute('height', headshotSize);
+      headshot.style.width = headshotSize + 'px';
+      headshot.style.height = headshotSize + 'px';
+    }
+
+    const additionalTitleIncluded =
+      els.toggleAdditionalTitle.checked &&
+      Boolean(els.additionalTitle.value.trim());
+
+    const bottomIdentityElement = additionalTitleIncluded
+      ? document.getElementById('employeeAdditionalTitle')
+      : document.getElementById('employeetitle');
+
+    const columnHeight = Math.max(
+      1,
+      Math.round(bottomIdentityElement.getBoundingClientRect().bottom - leftColumn.getBoundingClientRect().top)
+    );
+    leftColumn.setAttribute('height', columnHeight);
+    leftColumn.style.height = columnHeight + 'px';
+  }
+
   // The right-hand column's content above the brand logo varies by brand
   // (Wealth's Forbes badge vs. Tax's Client Portal button)
   // and the left-hand identity block's height varies with the optional
@@ -1119,6 +1170,7 @@
   function render(){
     updateSignatureDOM();
     renderBrand();
+    alignLeftColumn();
     alignBrandLogo();
   }
 
